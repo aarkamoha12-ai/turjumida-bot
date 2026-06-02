@@ -42,7 +42,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
     chat_id = update.effective_chat.id
     
-    processing_message = await update.message.reply_text("Sug yar boowe, Google Gemini ayaa tarjumaya... ⏳")
+    processing_message = await update.message.reply_text("Processing⏳")
     
     try:
         # Tillaabada A: Google Gemini Turjumaad (Bilaash ah)
@@ -87,7 +87,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     except Exception as e:
         logger.error(f"Cilad ayaa dhacday: {e}")
-        await update.message.reply_text(f"Raali ahoow boowe, cilad ayaa dhacday: {str(e)}")
+        await update.message.reply_text(f"Waxaa dhacday cilad kuceli mar kale: {str(e)}")
 
 # 3. Kicinta Mashiinka
 def main():
