@@ -40,7 +40,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     processing_message = await update.message.reply_text("Sug yar boowe, Google Gemini ayaa tarjumaya... ⏳")
     
     try:
-        # Google Gemini Turjumaad Bilaash ah (Halkan ayaa la saxay)
+        # Google Gemini Turjumaad Bilaash ah
         response = gemini_client.models.generate_content(
             model='models/gemini-1.5-flash',
             contents=f"Waxaad tahay turjumaan filimada koobbiya oo u turjuma Af-Soomaali aad u dabiici ah, xamaasad leh, oo dadka soo jiita. U turjum qoraalkan soo socda Af-Soomaali dabiici ah oo filimada lagu sharxo:\n\n{user_text}"
@@ -63,6 +63,13 @@ def main():
     
     # Handlers
     app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    
+    logger.info("Bot-kii wuxuu u ordayaa si toos ah...")
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
     logger.info("Bot-kii wuxuu u ordayaa si toos ah...")
