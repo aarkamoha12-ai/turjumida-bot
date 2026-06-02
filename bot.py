@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Shid Client-ka Google Gemini
+# Shid Client-ka Google Gemini (Bilaash ah)
 gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 
 # 1. Amarka /start marka uu qofku bixiyo
@@ -29,7 +29,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.effective_user.first_name
     await update.message.reply_text(
         f"Ksoo dhawaaw boowe {user_name}! 👋\n\n"
-        f"Kani waa Bot-ka rasmiga ah ee **JF Jiice Films** [Gemini Only]. 🎬\n"
+        f"Kani waa Bot-ka rasmiga ah ee **JF Jiice Films** [100% Free System]. 🎬\n"
         f"Ii soo dir qoraalka (Script-ga) aad rabto inaan kuugu turjumno Af-Soomaali dabiici ah oo bilaash ah!"
     )
 
@@ -40,15 +40,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     processing_message = await update.message.reply_text("Sug yar boowe, Google Gemini ayaa tarjumaya... ⏳")
     
     try:
-        # Google Gemini Turjumaad
+        # Google Gemini Turjumaad Bilaash ah (Halkan ayaa la saxay)
         response = gemini_client.models.generate_content(
-            model='gemini-1.5-flash',
+            model='models/gemini-1.5-flash',
             contents=f"Waxaad tahay turjumaan filimada koobbiya oo u turjuma Af-Soomaali aad u dabiici ah, xamaasad leh, oo dadka soo jiita. U turjum qoraalkan soo socda Af-Soomaali dabiici ah oo filimada lagu sharxo:\n\n{user_text}"
         )
         somali_text = response.text
         
         # U soo dir qoraalka la turjumay saaxiibkay
-        await update.message.reply_text(f"📝 **Turjumaadda Af-Soomaaliga (Gemini):**\n\n{somali_text}", parse_mode="Markdown")
+        await update.message.reply_text(f"📝 **Turjumaadda Af-Soomaaliga (Gemini):**\n\n{somali_text}")
         
         # Masax fariintii "Sug yar"
         await processing_message.delete()
@@ -63,6 +63,13 @@ def main():
     
     # Handlers
     app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    
+    logger.info("Bot-kii wuxuu u ordayaa si toos ah...")
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
     logger.info("Bot-kii wuxuu u ordayaa si toos ah...")
